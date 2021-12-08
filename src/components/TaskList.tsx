@@ -16,14 +16,35 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    // ESQUEMA = FILTRAR SE NÃO TEM TÍTULO VAZIO (!NEWTASKTITLE É IGUAL A DIZER QUE '' É FALSE), SETAR UM NOVO OBJETO CONFORME A INTERFACE DESCRITA, DESTA INTERFACE SETAR ELA NAS INTERFACES ANTERIORES
+    if (!newTaskTitle) return
+    
+    const newTask = {
+      id: Math.random(),
+      title: newTaskTitle,
+      isComplete:false
+    }
+
+    setTasks(oldStates => [...oldStates, newTask])
+    setNewTaskTitle('')
   }
 
   function handleToggleTaskCompletion(id: number) {
-    // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID,// ESQUEMA = FILTRAR A TASK SELECIONADO, ALTERAR O BOOLEANO E SETAR NOVAMENTE
+
+    const newTasks = tasks.map(task => task.id == id ? { ...task, isComplete: !task.isComplete } : task)
+
+    setTasks(newTasks)
+
   }
 
   function handleRemoveTask(id: number) {
-    // Remova uma task da listagem pelo ID
+    // Remova uma task da listagem pelo ID // Esquema = FILTRAR A TASK PELO ID E RETORNAR O OBJETO COM AS ARRAYS QUE SOBRARAM, SETA-LAS NOVAMENTE DENTRO DO ESTADO DAS TASKS ADICIONADAS
+
+    const filterTasks = tasks.filter(task => task.id != id)
+    
+    setTasks(filterTasks)
+
   }
 
   return (
